@@ -64,6 +64,12 @@ function CustomerProfilesList(props) {
         className: 'font-medium',
         sortable: true,
       },
+      {
+        Header: 'Nationality',
+        accessor: 'nationality',
+        className: 'font-medium',
+        sortable: true,
+      },
       // {
       //   id: 'action',
       //   width: 128,

@@ -10,9 +10,9 @@ i18next.addResourceBundle('ar', 'navigation', ar);
 
 const navigationConfig = [
   {
-    id: 'applications',
-    title: 'Applications',
-    translate: 'APPLICATIONS',
+    id: 'usersData',
+    title: 'UsersData',
+    translate: 'USERDATA',
     type: 'group',
     icon: 'apps',
     children: [
@@ -42,6 +42,19 @@ const navigationConfig = [
         icon: 'person',
         url: '/user/profile',
       },
+    ],
+  },
+  // {
+  //   type: 'divider',
+  //   id: 'divider-1',
+  // },
+  {
+    id: 'customers',
+    title: 'Customers',
+    translate: 'CUSTOMERS',
+    type: 'group',
+    icon: 'apps',
+    children: [
       {
         id: 'customerProfile',
         title: 'CustomerProfile',
@@ -61,6 +74,24 @@ const navigationConfig = [
         url: '/customer-service',
       },
       {
+        id: 'customerBooking',
+        title: 'CustomerBooking',
+        translate: 'CUSTOMER-BOOKING',
+        auth: authRoles.user,
+        type: 'item',
+        icon: 'person',
+        url: '/customer-booking',
+      },
+    ],
+  },
+  {
+    id: 'hospitalitys',
+    title: 'Hospitalitys',
+    translate: 'HOSPITALITYS',
+    type: 'group',
+    icon: 'apps',
+    children: [
+      {
         id: 'hospitality',
         title: 'Hospitality',
         translate: 'HOSPITALITY',
@@ -69,14 +100,33 @@ const navigationConfig = [
         icon: 'person',
         url: '/hospitality',
       },
+    ],
+  },
+  {
+    id: 'selecterManagement',
+    title: 'SelecterManagement',
+    translate: 'SELECTER-MANAGEMENT',
+    type: 'group',
+    icon: 'apps',
+    auth: authRoles.admin,
+    children: [
       {
         id: 'service',
         title: 'Service',
         translate: 'SERVICE',
-        auth: authRoles.user,
+        auth: authRoles.admin,
         type: 'item',
         icon: 'person',
         url: '/service',
+      },
+      {
+        id: 'hospitalityType',
+        title: 'HospitalityType',
+        translate: 'HOSPITALITY-TYPE',
+        auth: authRoles.admin,
+        type: 'item',
+        icon: 'person',
+        url: '/hospitalitytype',
       },
     ],
   },

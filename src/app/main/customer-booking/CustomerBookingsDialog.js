@@ -8,62 +8,54 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import Icon from '@mui/material/Icon';
-// import IconButton from '@mui/material/IconButton';
-import _ from '@lodash';
+import IconButton from '@mui/material/IconButton';
 import TextField from '@mui/material/TextField';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { useCallback, useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import _ from '@lodash';
 import * as yup from 'yup';
 import MenuItem from '@mui/material/MenuItem';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DateRangePicker from '@mui/lab/DateRangePicker';
 import Box from '@mui/material/Box';
-import { getCategories, selectCategories } from './store/categoriesSlice';
-import { getUsers, selectUsers } from './store/usersSlice';
-import { getCustomers, selectCustomers } from './store/customersSlice';
+import { getHospitalitys, selectHospitalitys } from './store/hospitalitysSlice';
 
 import {
-  removeCustomerService,
-  updateCustomerService,
-  addCustomerService,
-  closeNewCustomerServiceDialog,
-  closeEditCustomerServiceDialog,
-} from './store/customerServicesSlice';
+  removeCustomerBooking,
+  updateCustomerBooking,
+  addCustomerBooking,
+  closeNewCustomerBookingDialog,
+  closeEditCustomerBookingDialog,
+} from './store/customerBookingsSlice';
+import { getCustomerServices, selectCustomerServices } from './store/customerServiceSlice';
 
 const defaultValues = {
   id: '',
-  customer_id: '',
-  svc_id: '',
-  user_id: '',
-  status: '',
+  cus_svc_id: '',
+  hos_id: '',
   start_date: '',
   end_date: '',
 };
 
-const statusTypes = {
-  ContactUser: 'Contact User',
-  HospitalitySubmitted: 'Hospitality Submitted',
-  Completed: 'Completed',
-  Cancel: 'Cancel',
-};
 /**
  * Form Validation Schema
  */
 const schema = yup.object().shape({});
 
-function CustomerServiceDialog(props) {
+function CustomerBookingDialog(props) {
   const dispatch = useDispatch();
-  const customerServiceDialog = useSelector(
-    ({ customerServicesApp }) => customerServicesApp.customerServices.customerServiceDialog
+  const routeParams = useParams();
+  const customerBookingDialog = useSelector(
+    ({ customerBookingsApp }) => customerBookingsApp.customerBookings.customerBookingDialog
   );
   const user = useSelector(({ auth }) => auth.user);
-  const categories = useSelector(selectCategories);
-  const users = useSelector(selectUsers);
-  const customers = useSelector(selectCustomers);
+  const hospitalitys = useSelector(selectHospitalitys);
+  const customerServices = useSelector(selectCustomerServices);
   const [dateValue, setDateValue] = React.useState([null, null]);
 
   const { control, watch, reset, handleSubmit, formState, getValues } = useForm({
@@ -77,6 +69,8 @@ function CustomerServiceDialog(props) {
   const id = watch('id');
   const name = watch('name');
   const avatar = watch('avatar');
+  const startDate = watch('start_date');
+  const endDate = watch('end_date');
 
   /**
    * Initialize Dialog with Data
@@ -85,63 +79,66 @@ function CustomerServiceDialog(props) {
     /**
      * Dialog type: 'edit'
      */
-    if (customerServiceDialog.type === 'edit' && customerServiceDialog.data) {
-      reset({ ...customerServiceDialog.data });
+    if (customerBookingDialog.type === 'edit' && customerBookingDialog.data) {
+      reset({ ...customerBookingDialog.data });
     }
 
     /**
      * Dialog type: 'new'
      */
-    if (customerServiceDialog.type === 'new') {
+    if (customerBookingDialog.type === 'new') {
       reset({
         ...defaultValues,
-        ...customerServiceDialog.data,
+        ...customerBookingDialog.data,
         id: FuseUtils.generateGUID(),
       });
     }
-  }, [customerServiceDialog.data, customerServiceDialog.type, reset]);
+  }, [customerBookingDialog.data, customerBookingDialog.type, reset]);
 
   useEffect(() => {
-    dispatch(getCategories());
-    dispatch(getUsers());
-    dispatch(getCustomers());
+    dispatch(getHospitalitys());
+    dispatch(getCustomerServices());
   }, [dispatch]);
   /**
    * On Dialog Open
    */
   useEffect(() => {
-    if (customerServiceDialog.props.open) {
+    if (customerBookingDialog.props.open) {
       initDialog();
     }
-    // axios.get(`http://localhost:8000/api/v1/customerService/get/type`).then((res) => {
+    // axios.get(`http://localhost:8000/api/v1/customerBooking/get/type`).then((res) => {
     //   console.log('res:', res.detail);
     // });
-  }, [customerServiceDialog.props.open, initDialog]);
+  }, [customerBookingDialog.props.open, initDialog]);
 
   /**
    * Close Dialog
    */
   function closeComposeDialog() {
-    return customerServiceDialog.type === 'edit'
-      ? dispatch(closeEditCustomerServiceDialog())
-      : dispatch(closeNewCustomerServiceDialog());
+    return customerBookingDialog.type === 'edit'
+      ? dispatch(closeEditCustomerBookingDialog())
+      : dispatch(closeNewCustomerBookingDialog());
   }
 
   /**
    * Form Submit
    */
   function onSubmit(data) {
-    console.log('Date data:', dateValue[0], dateValue[1]);
+    // console.log('Submit data:', data);
+    // console.log('Date data:', dateValue[0], dateValue[1]);
     if (dateValue[0] !== null) {
       data.start_date = new Date(`${dateValue[0]}EDT`).toISOString().split('T')[0];
     }
     if (dateValue[1] !== null) {
       data.end_date = new Date(`${dateValue[1]}EDT`).toISOString().split('T')[0];
     }
-    if (customerServiceDialog.type === 'new') {
-      dispatch(addCustomerService(data));
+    if (data.cus_svc_id === '') {
+      data.cus_svc_id = routeParams.id;
+    }
+    if (customerBookingDialog.type === 'new') {
+      dispatch(addCustomerBooking(data));
     } else {
-      dispatch(updateCustomerService({ ...customerServiceDialog.data, ...data }));
+      dispatch(updateCustomerBooking({ ...customerBookingDialog.data, ...data }));
     }
     closeComposeDialog();
   }
@@ -150,7 +147,7 @@ function CustomerServiceDialog(props) {
    * Remove Event
    */
   function handleRemove() {
-    dispatch(removeCustomerService(id));
+    dispatch(removeCustomerBooking(id));
     closeComposeDialog();
   }
 
@@ -159,7 +156,7 @@ function CustomerServiceDialog(props) {
       classes={{
         paper: 'm-24',
       }}
-      {...customerServiceDialog.props}
+      {...customerBookingDialog.props}
       onClose={closeComposeDialog}
       fullWidth
       maxWidth="xs"
@@ -167,12 +164,12 @@ function CustomerServiceDialog(props) {
       <AppBar position="static" elevation={0}>
         <Toolbar className="flex w-full">
           <Typography variant="subtitle1" color="inherit">
-            {customerServiceDialog.type === 'new' ? 'New CustomerService' : 'Edit CustomerService'}
+            {customerBookingDialog.type === 'new' ? 'New CustomerBooking' : 'Edit CustomerBooking'}
           </Typography>
         </Toolbar>
         <div className="flex flex-col items-center justify-center pb-24">
-          <Avatar className="w-96 h-96" alt="customerService avatar" src={avatar} />
-          {customerServiceDialog.type === 'edit' && (
+          <Avatar className="w-96 h-96" alt="customerBooking avatar" src={avatar} />
+          {customerBookingDialog.type === 'edit' && (
             <Typography variant="h6" color="inherit" className="pt-8">
               {name}
             </Typography>
@@ -197,7 +194,7 @@ function CustomerServiceDialog(props) {
                 <TextField
                   {...field}
                   className="mb-24"
-                  label="CustomerService Id"
+                  label="CustomerBooking Id"
                   id="id"
                   variant="outlined"
                   fullWidth
@@ -207,145 +204,89 @@ function CustomerServiceDialog(props) {
             />
           </div>
 
-          {customerServiceDialog.type === 'new' ? (
-            <div className="flex">
-              <div className="min-w-48 pt-20">
-                <Icon color="action">star</Icon>
-              </div>
-              <Controller
-                control={control}
-                name="customer_id"
-                render={({ field: { onChange, value } }) => (
-                  <TextField
-                    {...value}
-                    select
-                    className="mb-24"
-                    label="Customer Name"
-                    id="customer_id"
-                    variant="outlined"
-                    value={value}
-                    onChange={(event, newValue) => {
-                      console.log('onchange newValue:', newValue.props.value);
-                      onChange(newValue.props.value);
-                    }}
-                    fullWidth
-                    required
-                  >
-                    {customers.map((option) => (
-                      <MenuItem value={option.id} key={option.name}>
-                        {option.name}
-                      </MenuItem>
-                    ))}
-                    {/* {console.log(usertype.value)} */}
-                  </TextField>
+          <div className="flex">
+            <div className="min-w-48 pt-20">
+              <Icon color="action">star</Icon>
+            </div>
+            <Controller
+              control={control}
+              name="cus_svc_id"
+              render={({ field: { onChange, value } }) => (
+                <TextField
+                  {...value}
+                  select
+                  className="mb-24"
+                  label="Customer Service Id"
+                  id="cus_svc_id"
+                  variant="outlined"
+                  value={routeParams.id === 'all' ? value : routeParams.id}
+                  disabled={routeParams.id !== 'all'}
+                  onChange={(event, newValue) => {
+                    // console.log('onchange newValue:', newValue.props.value);
+                    onChange(newValue.props.value);
+                  }}
+                  fullWidth
+                  required
+                >
+                  {customerServices.map((option) => (
+                    <MenuItem value={option.id} key={option.customer_name}>
+                      {option.id} {option.customer_name} {option.customer_phone_number}
+                    </MenuItem>
+                  ))}
+                  {/* {console.log(usertype.value)} */}
+                </TextField>
+              )}
+            />
+          </div>
+
+          <div className="flex">
+            <div className="min-w-48 pt-20">
+              <Icon color="action">star</Icon>
+            </div>
+            <Controller
+              control={control}
+              name="hos_id"
+              render={({ field: { onChange, value } }) => (
+                <TextField
+                  {...value}
+                  select
+                  className="mb-24"
+                  label="Hospitality Name"
+                  id="hos_id"
+                  variant="outlined"
+                  value={value}
+                  onChange={(event, newValue) => {
+                    // console.log('onchange newValue:', newValue.props.value);
+                    onChange(newValue.props.value);
+                  }}
+                  fullWidth
+                  required
+                >
+                  {hospitalitys.map((option) => (
+                    <MenuItem value={option.id} key={option.hos_name}>
+                      {option.hos_name}
+                    </MenuItem>
+                  ))}
+                  {/* {console.log(usertype.value)} */}
+                </TextField>
+              )}
+            />
+          </div>
+
+          {/* <div>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <DatePicker
+                label="Helper text example"
+                value={startDateValue}
+                onChange={(newValue) => {
+                  setStartDateValue(newValue);
+                }}
+                renderInput={(params) => (
+                  <TextField {...params} helperText={params?.inputProps?.placeholder} />
                 )}
               />
-            </div>
-          ) : (
-            <></>
-          )}
-
-          <div className="flex">
-            <div className="min-w-48 pt-20">
-              <Icon color="action">star</Icon>
-            </div>
-            <Controller
-              control={control}
-              name="svc_id"
-              render={({ field: { onChange, value } }) => (
-                <TextField
-                  {...value}
-                  select
-                  className="mb-24"
-                  label="Service Name"
-                  id="svc_id"
-                  variant="outlined"
-                  value={value}
-                  onChange={(event, newValue) => {
-                    console.log('onchange newValue:', newValue.props.value);
-                    onChange(newValue.props.value);
-                  }}
-                  fullWidth
-                  required
-                >
-                  {categories.map((category) => (
-                    <MenuItem value={category.id} key={category.svc_name}>
-                      {category.svc_name}
-                    </MenuItem>
-                  ))}
-                  {/* {console.log(usertype.value)} */}
-                </TextField>
-              )}
-            />
-          </div>
-
-          <div className="flex">
-            <div className="min-w-48 pt-20">
-              <Icon color="action">star</Icon>
-            </div>
-            <Controller
-              control={control}
-              name="user_id"
-              render={({ field: { onChange, value } }) => (
-                <TextField
-                  {...value}
-                  select
-                  className="mb-24"
-                  label="Responsible person"
-                  id="user_id"
-                  variant="outlined"
-                  value={value}
-                  onChange={(event, newValue) => {
-                    console.log('onchange newValue:', newValue.props.value);
-                    onChange(newValue.props.value);
-                  }}
-                  fullWidth
-                  required
-                >
-                  {users.map((option) => (
-                    <MenuItem value={option.id} key={`${option.displayName}`}>
-                      {option.displayName}
-                    </MenuItem>
-                  ))}
-                  {/* {console.log(usertype.value)} */}
-                </TextField>
-              )}
-            />
-          </div>
-
-          <div className="flex">
-            <div className="min-w-48 pt-20">
-              <Icon color="action">star</Icon>
-            </div>
-            <Controller
-              control={control}
-              name="status"
-              render={({ field: { onChange, value } }) => (
-                <TextField
-                  {...value}
-                  select
-                  className="mb-24"
-                  label="Status"
-                  id="status"
-                  variant="outlined"
-                  value={value}
-                  onChange={(event, newValue) => {
-                    console.log('onchange newValue:', newValue.props.value);
-                    onChange(newValue.props.value);
-                  }}
-                  fullWidth
-                  required
-                >
-                  {Object.keys(statusTypes).map((key, newvalue) => (
-                    <MenuItem key={key} value={statusTypes[key]}>
-                      {statusTypes[key]}
-                    </MenuItem>
-                  ))}
-                  {/* {console.log(usertype.value)} */}
-                </TextField>
-              )}
-            />
-          </div>
+            </LocalizationProvider>
+          </div> */}
 
           <div className="flex">
             <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -368,7 +309,7 @@ function CustomerServiceDialog(props) {
           </div>
         </DialogContent>
 
-        {customerServiceDialog.type === 'new' ? (
+        {customerBookingDialog.type === 'new' ? (
           <DialogActions className="justify-between p-4 pb-16">
             <div className="px-16">
               <Button
@@ -389,13 +330,14 @@ function CustomerServiceDialog(props) {
                 color="secondary"
                 type="submit"
                 // disabled={_.isEmpty(dirtyFields) || !isValid}
+                // disabled={_.isEmpty(dirtyFields)}
               >
                 Save
               </Button>
             </div>
-            {/* <IconButton onClick={handleRemove} size="large">
+            <IconButton onClick={handleRemove} size="large">
               <Icon>delete</Icon>
-            </IconButton> */}
+            </IconButton>
           </DialogActions>
         )}
       </form>
@@ -403,4 +345,4 @@ function CustomerServiceDialog(props) {
   );
 }
 
-export default CustomerServiceDialog;
+export default CustomerBookingDialog;

@@ -3,20 +3,20 @@ import FuseUtils from '@fuse/utils';
 import Typography from '@mui/material/Typography';
 import { useMemo, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import CustomerServicesTable from './CustomerServicesTable';
+import CustomerBookingsTable from './CustomerBookingsTable';
 import {
-  openEditCustomerServiceDialog,
-  selectCustomerServices,
-} from './store/customerServicesSlice';
+  openEditCustomerBookingDialog,
+  selectCustomerBookings,
+} from './store/customerBookingsSlice';
 
-function CustomerServicesList(props) {
+function CustomerBookingsList(props) {
   const dispatch = useDispatch();
-  const customerServices = useSelector(selectCustomerServices);
+  const customerBookings = useSelector(selectCustomerBookings);
   const searchText = useSelector(
-    ({ customerServicesApp }) => customerServicesApp.customerServices.searchText
+    ({ customerBookingsApp }) => customerBookingsApp.customerBookings.searchText
   );
-  const customerService = useSelector(
-    ({ customerServicesApp }) => customerServicesApp.customerService
+  const customerBooking = useSelector(
+    ({ customerBookingsApp }) => customerBookingsApp.customerBooking
   );
   const user = useSelector(({ auth }) => auth.user);
 
@@ -29,7 +29,7 @@ function CustomerServicesList(props) {
       //     const selectedRowIds = selectedFlatRows.map((row) => row.original.id);
 
       //     return (
-      //       selectedFlatRows.length > 0 && <CustomerServicesMultiSelectMenu selectedCustomerServiceIds={selectedRowIds} />
+      //       selectedFlatRows.length > 0 && <CustomerBookingsMultiSelectMenu selectedCustomerBookingIds={selectedRowIds} />
       //     );
       //   },
       //   accessor: 'avatar',
@@ -41,38 +41,14 @@ function CustomerServicesList(props) {
       //   sortable: false,
       // },
       {
-        Header: 'CustomerService Id',
+        Header: 'CustomerBooking Id',
         accessor: 'id',
         className: 'font-medium',
         sortable: true,
       },
       {
-        Header: 'Customer Name',
-        accessor: 'customer_name',
-        className: 'font-medium',
-        sortable: true,
-      },
-      {
-        Header: 'Customer Phone Number',
-        accessor: 'customer_phone_number',
-        className: 'font-medium',
-        sortable: true,
-      },
-      {
-        Header: 'Service Name',
-        accessor: 'svc_name',
-        className: 'font-medium',
-        sortable: true,
-      },
-      {
-        Header: 'Responsible person',
-        accessor: 'user_name',
-        className: 'font-medium',
-        sortable: true,
-      },
-      {
-        Header: 'Status',
-        accessor: 'status',
+        Header: 'CustomerService Id',
+        accessor: 'cus_svc_id',
         className: 'font-medium',
         sortable: true,
       },
@@ -89,8 +65,20 @@ function CustomerServicesList(props) {
         sortable: true,
       },
       {
-        Header: 'See Detail',
-        accessor: 'seeDetail',
+        Header: 'Hospitality Name',
+        accessor: 'hos_name',
+        className: 'font-medium',
+        sortable: true,
+      },
+      {
+        Header: 'Hospitality Contact Name',
+        accessor: 'hos_contact_name',
+        className: 'font-medium',
+        sortable: true,
+      },
+      {
+        Header: 'Hospitality Phone Number',
+        accessor: 'hos_phone_number',
         className: 'font-medium',
         sortable: true,
       },
@@ -103,11 +91,11 @@ function CustomerServicesList(props) {
       //       <IconButton
       //         onClick={(ev) => {
       //           ev.stopPropagation();
-      //           dispatch(toggleStarredCustomerService(row.original.id));
+      //           dispatch(toggleStarredCustomerBooking(row.original.id));
       //         }}
       //         size="large"
       //       >
-      //         {customerService.starred && customerService.starred.includes(row.original.id) ? (
+      //         {customerBooking.starred && customerBooking.starred.includes(row.original.id) ? (
       //           <Icon className="text-yellow-700">star</Icon>
       //         ) : (
       //           <Icon>star_border</Icon>
@@ -116,7 +104,7 @@ function CustomerServicesList(props) {
       //       <IconButton
       //         onClick={(ev) => {
       //           ev.stopPropagation();
-      //           dispatch(removeCustomerService(row.original.id));
+      //           dispatch(removeCustomerBooking(row.original.id));
       //         }}
       //         size="large"
       //       >
@@ -126,22 +114,22 @@ function CustomerServicesList(props) {
       //   ),
       // },
     ],
-    // [dispatch, customerService.starred]
+    // [dispatch, customerBooking.starred]
     []
   );
 
   useEffect(() => {
     function getFilteredArray(entities, _searchText) {
       if (_searchText.length === 0) {
-        return customerServices;
+        return customerBookings;
       }
-      return FuseUtils.filterArrayByString(customerServices, _searchText);
+      return FuseUtils.filterArrayByString(customerBookings, _searchText);
     }
 
-    if (customerServices) {
-      setFilteredData(getFilteredArray(customerServices, searchText));
+    if (customerBookings) {
+      setFilteredData(getFilteredArray(customerBookings, searchText));
     }
-  }, [customerServices, searchText]);
+  }, [customerBookings, searchText]);
 
   if (!filteredData) {
     return null;
@@ -151,7 +139,7 @@ function CustomerServicesList(props) {
     return (
       <div className="flex flex-1 items-center justify-center h-full">
         <Typography color="textSecondary" variant="h5">
-          There are no customerServices!
+          There are no customerBookings!
         </Typography>
       </div>
     );
@@ -163,13 +151,13 @@ function CustomerServicesList(props) {
       animate={{ y: 0, opacity: 1, transition: { delay: 0.2 } }}
       className="flex flex-auto w-full max-h-full"
     >
-      <CustomerServicesTable
+      <CustomerBookingsTable
         columns={columns}
         data={filteredData}
         onRowClick={(ev, row) => {
           if (row) {
             if (user.role !== 'user') {
-              dispatch(openEditCustomerServiceDialog(row.original));
+              dispatch(openEditCustomerBookingDialog(row.original));
             }
           }
         }}
@@ -178,4 +166,4 @@ function CustomerServicesList(props) {
   );
 }
 
-export default CustomerServicesList;
+export default CustomerBookingsList;

@@ -35,6 +35,7 @@ export const addCustomerProfile = createAsyncThunk(
 export const updateCustomerProfile = createAsyncThunk(
   'customerProfilesApp/customerProfiles/updateCustomerProfile',
   async (customerProfile, { dispatch, getState }) => {
+    console.log('customerProfile:', customerProfile);
     const response = await axios.post(
       `${Constant.BASE_URL}/api/v1/customer/profile/update`,
       customerProfile

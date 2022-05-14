@@ -10,9 +10,9 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import { useGlobalFilter, usePagination, useRowSelect, useSortBy, useTable } from 'react-table';
-import clsx from 'clsx';
 import { Button } from '@mui/material';
-import ContactsTablePaginationActions from './CustomerServicesTablePaginationActions';
+import clsx from 'clsx';
+import ContactsTablePaginationActions from './HospitalitytypesTablePaginationActions';
 
 const IndeterminateCheckbox = forwardRef(({ indeterminate, ...rest }, ref) => {
   const defaultRef = useRef();
@@ -86,47 +86,33 @@ const EnhancedTable = ({ columns, data, onRowClick }) => {
   //   inputFile.current.click();
   // };
 
-  // const StatusCompponent = (cellValue) => {
-  //   switch (cellValue) {
-  //     case 'Contact User':
-  //       return 'ADMIN';
-  //     case 'staff':
-  //       return 'STAFF';
-  //     default:
-  //       return 'USER';
-  //   }
-  // };
+  const handleChangePage = (event, newPage) => {
+    gotoPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setPageSize(Number(event.target.value));
+  };
+
+  const StatusCompponent = (cellValue) => {
+    switch (cellValue) {
+      case true:
+        return 'APPROVED';
+      case false:
+        return 'REJECTED';
+      default:
+        return 'WAITING';
+    }
+  };
 
   const StatusAppearance = (cellValue) => {
     switch (cellValue) {
-      case 'Contact User':
-        return 'bg-blue text-white';
-      case 'Completed':
+      case true:
         return 'bg-green-700 text-white';
-      case 'Cancel':
-        return 'bg-red-700 text-white';
-      case 'Hospitality Submitted':
+      case false:
+        return 'bg-red text-white';
+      default:
         return 'bg-orange text-white';
-      default:
-        return 'bg-purple-300 text-white';
-    }
-  };
-
-  const StatusActiveComponent = (cellValue) => {
-    switch (cellValue) {
-      case 'active':
-        return 'ACTIVE';
-      default:
-        return 'INACTIVE';
-    }
-  };
-
-  const StatusActiveAppearance = (cellValue) => {
-    switch (cellValue) {
-      case 'active':
-        return 'bg-green text-white';
-      default:
-        return 'bg-red-700 text-white';
     }
   };
 
@@ -134,7 +120,7 @@ const EnhancedTable = ({ columns, data, onRowClick }) => {
     const cellRow = row.cells;
     return row.cells.map((cell) => {
       switch (cell.column.Header) {
-        case 'Status':
+        case 'Verified':
           return (
             <TableCell
               {...cell.getCellProps()}
@@ -146,60 +132,30 @@ const EnhancedTable = ({ columns, data, onRowClick }) => {
                   StatusAppearance(cell.value)
                 )}
               >
-                {/* {StatusCompponent(cell.value)} */}
-                {cell.render('Cell')}
+                {StatusCompponent(cell.value)}
               </div>
             </TableCell>
           );
 
-        case 'Start Date':
+        case 'See Hospitalitytype':
           return (
             <TableCell
               {...cell.getCellProps()}
               className={clsx('p-4 md:p-12', cell.column.className)}
             >
-              {/* <div
-                className={clsx(
-                  'inline text-12 font-semibold py-4 px-12 rounded-full truncate',
-                  StatusAppearance(cell.value)
-                )}
-              > */}
-              {cellRow[6].value !== 'Cancel' ? cell.render('Cell') : <></>}
-              {/* </div> */}
-            </TableCell>
-          );
-
-        case 'End Date':
-          return (
-            <TableCell
-              {...cell.getCellProps()}
-              className={clsx('p-4 md:p-12', cell.column.className)}
-            >
-              {/* <div
-                className={clsx(
-                  'inline text-12 font-semibold py-4 px-12 rounded-full truncate',
-                  StatusAppearance(cell.value)
-                )}
-              > */}
-              {console.log()}
-              {cellRow[6].value !== 'Cancel' ? cell.render('Cell') : <></>}
-              {/* </div> */}
-            </TableCell>
-          );
-
-        case 'See Detail':
-          return (
-            <TableCell
-              {...cell.getCellProps()}
-              className={clsx('p-4 md:p-12', cell.column.className)}
-            >
+              {/* {cellRow[5].value === 'Approved' ? cell.render('Cell') : ''} */}
+              {/* <div>
+                <a href={cell.value} target="_blank" rel="noreferrer">
+                  Open file
+                </a>
+              </div> */}
               <Button
-                href={`customer-booking/${row.original.id}`}
+                href={`/image/hospitalitytype/${cellRow[1].value}`}
                 variant="outlined"
                 size="large"
                 color="info"
               >
-                See Detail
+                See file
               </Button>
             </TableCell>
           );
@@ -216,22 +172,6 @@ const EnhancedTable = ({ columns, data, onRowClick }) => {
       }
     });
   };
-
-  const handleChangePage = (event, newPage) => {
-    gotoPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setPageSize(Number(event.target.value));
-  };
-
-  function compareDate(event) {
-    const now = new Date();
-    if (now >= Date.parse(event.start_date) && now <= Date.parse(event.end_date)) {
-      return true;
-    }
-    return false;
-  }
 
   // Render the UI for your table
   return (
@@ -264,17 +204,14 @@ const EnhancedTable = ({ columns, data, onRowClick }) => {
           <TableBody>
             {page.map((row, i) => {
               prepareRow(row);
-              // console.log('row:', row);
               return (
                 <TableRow
                   {...row.getRowProps()}
                   onClick={(ev) => onRowClick(ev, row)}
                   className="truncate cursor-pointer"
-                  style={compareDate(row.original) ? { backgroundColor: 'yellow' } : {}}
-                  // style={{ backgroundColor: 'yellow' }}
                 >
-                  {TableCellComponent(row)}
-                  {/* {row.cells.map((cell) => {
+                  {/* {TableCellComponent(row)} */}
+                  {row.cells.map((cell) => {
                     return (
                       <TableCell
                         {...cell.getCellProps()}
@@ -283,7 +220,7 @@ const EnhancedTable = ({ columns, data, onRowClick }) => {
                         {cell.render('Cell')}
                       </TableCell>
                     );
-                  })} */}
+                  })}
                 </TableRow>
               );
             })}

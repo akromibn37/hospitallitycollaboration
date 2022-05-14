@@ -15,9 +15,9 @@ import { useCallback, useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import MenuItem from '@mui/material/MenuItem';
-
 import _ from '@lodash';
 import * as yup from 'yup';
+import { getHospitalityTypes, selectHospitalitytypes } from './store/hospitalitySlice';
 
 import {
   removeHospitality,
@@ -36,7 +36,7 @@ const defaultValues = {
   hos_phone_number: '',
 };
 
-const hosTypes = { Hospital: 'HOSPITAL', Hotel: 'HOTEL' };
+// const hosTypes = { Hospital: 'HOSPITAL', Hotel: 'HOTEL' };
 
 /**
  * Form Validation Schema
@@ -49,6 +49,8 @@ function HospitalityDialog(props) {
     ({ hospitalitysApp }) => hospitalitysApp.hospitalitys.hospitalityDialog
   );
   const user = useSelector(({ auth }) => auth.user);
+  const hosTypes = useSelector(selectHospitalitytypes);
+  console.log('hosTypes:', hosTypes);
 
   const { control, watch, reset, handleSubmit, formState, getValues } = useForm({
     mode: 'onChange',
@@ -61,6 +63,10 @@ function HospitalityDialog(props) {
   const id = watch('id');
   const name = watch('name');
   const avatar = watch('avatar');
+
+  useEffect(() => {
+    dispatch(getHospitalityTypes());
+  }, [dispatch]);
 
   /**
    * Initialize Dialog with Data
@@ -92,9 +98,6 @@ function HospitalityDialog(props) {
     if (hospitalityDialog.props.open) {
       initDialog();
     }
-    // axios.get(`http://localhost:8000/api/v1/hospitality/get/type`).then((res) => {
-    //   console.log('res:', res.detail);
-    // });
   }, [hospitalityDialog.props.open, initDialog]);
 
   /**
@@ -291,12 +294,11 @@ function HospitalityDialog(props) {
                   fullWidth
                   required
                 >
-                  {Object.keys(hosTypes).map((key, newvalue) => (
-                    <MenuItem key={key} value={hosTypes[key]}>
-                      {key}
+                  {hosTypes.map((hostype) => (
+                    <MenuItem value={hostype.hos_type_name} key={hostype.hos_type_name}>
+                      {hostype.hos_type_name}
                     </MenuItem>
                   ))}
-                  {/* {console.log(usertype.value)} */}
                 </TextField>
               )}
             />

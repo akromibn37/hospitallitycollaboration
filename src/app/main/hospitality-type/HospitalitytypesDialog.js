@@ -19,17 +19,16 @@ import _ from '@lodash';
 import * as yup from 'yup';
 
 import {
-  removeService,
-  updateService,
-  addService,
-  closeNewServiceDialog,
-  closeEditServiceDialog,
-} from './store/servicesSlice';
+  removeHospitalitytype,
+  updateHospitalitytype,
+  addHospitalitytype,
+  closeNewHospitalitytypeDialog,
+  closeEditHospitalitytypeDialog,
+} from './store/hospitalitytypesSlice';
 
 const defaultValues = {
   id: '',
-  svc_name: '',
-  svc_desc: '',
+  hos_type_name: '',
 };
 
 /**
@@ -37,9 +36,11 @@ const defaultValues = {
  */
 const schema = yup.object().shape({});
 
-function ServiceDialog(props) {
+function HospitalitytypeDialog(props) {
   const dispatch = useDispatch();
-  const serviceDialog = useSelector(({ servicesApp }) => servicesApp.services.serviceDialog);
+  const hospitalitytypeDialog = useSelector(
+    ({ hospitalitytypesApp }) => hospitalitytypesApp.hospitalitytypes.hospitalitytypeDialog
+  );
   const user = useSelector(({ auth }) => auth.user);
 
   const { control, watch, reset, handleSubmit, formState, getValues } = useForm({
@@ -61,51 +62,51 @@ function ServiceDialog(props) {
     /**
      * Dialog type: 'edit'
      */
-    if (serviceDialog.type === 'edit' && serviceDialog.data) {
-      reset({ ...serviceDialog.data });
+    if (hospitalitytypeDialog.type === 'edit' && hospitalitytypeDialog.data) {
+      reset({ ...hospitalitytypeDialog.data });
     }
 
     /**
      * Dialog type: 'new'
      */
-    if (serviceDialog.type === 'new') {
+    if (hospitalitytypeDialog.type === 'new') {
       reset({
         ...defaultValues,
-        ...serviceDialog.data,
+        ...hospitalitytypeDialog.data,
         id: FuseUtils.generateGUID(),
       });
     }
-  }, [serviceDialog.data, serviceDialog.type, reset]);
+  }, [hospitalitytypeDialog.data, hospitalitytypeDialog.type, reset]);
 
   /**
    * On Dialog Open
    */
   useEffect(() => {
-    if (serviceDialog.props.open) {
+    if (hospitalitytypeDialog.props.open) {
       initDialog();
     }
-    // axios.get(`http://localhost:8000/api/v1/service/get/type`).then((res) => {
+    // axios.get(`http://localhost:8000/api/v1/hospitalitytype/get/type`).then((res) => {
     //   console.log('res:', res.detail);
     // });
-  }, [serviceDialog.props.open, initDialog]);
+  }, [hospitalitytypeDialog.props.open, initDialog]);
 
   /**
    * Close Dialog
    */
   function closeComposeDialog() {
-    return serviceDialog.type === 'edit'
-      ? dispatch(closeEditServiceDialog())
-      : dispatch(closeNewServiceDialog());
+    return hospitalitytypeDialog.type === 'edit'
+      ? dispatch(closeEditHospitalitytypeDialog())
+      : dispatch(closeNewHospitalitytypeDialog());
   }
 
   /**
    * Form Submit
    */
   function onSubmit(data) {
-    if (serviceDialog.type === 'new') {
-      dispatch(addService(data));
+    if (hospitalitytypeDialog.type === 'new') {
+      dispatch(addHospitalitytype(data));
     } else {
-      dispatch(updateService({ ...serviceDialog.data, ...data }));
+      dispatch(updateHospitalitytype({ ...hospitalitytypeDialog.data, ...data }));
     }
     closeComposeDialog();
   }
@@ -114,7 +115,7 @@ function ServiceDialog(props) {
    * Remove Event
    */
   function handleRemove() {
-    dispatch(removeService(id));
+    dispatch(removeHospitalitytype(id));
     closeComposeDialog();
   }
 
@@ -123,7 +124,7 @@ function ServiceDialog(props) {
       classes={{
         paper: 'm-24',
       }}
-      {...serviceDialog.props}
+      {...hospitalitytypeDialog.props}
       onClose={closeComposeDialog}
       fullWidth
       maxWidth="xs"
@@ -131,12 +132,12 @@ function ServiceDialog(props) {
       <AppBar position="static" elevation={0}>
         <Toolbar className="flex w-full">
           <Typography variant="subtitle1" color="inherit">
-            {serviceDialog.type === 'new' ? 'New Service' : 'Edit Service'}
+            {hospitalitytypeDialog.type === 'new' ? 'New Hospitalitytype' : 'Edit Hospitalitytype'}
           </Typography>
         </Toolbar>
         <div className="flex flex-col items-center justify-center pb-24">
-          <Avatar className="w-96 h-96" alt="service avatar" src={avatar} />
-          {serviceDialog.type === 'edit' && (
+          <Avatar className="w-96 h-96" alt="hospitalitytype avatar" src={avatar} />
+          {hospitalitytypeDialog.type === 'edit' && (
             <Typography variant="h6" color="inherit" className="pt-8">
               {name}
             </Typography>
@@ -161,7 +162,7 @@ function ServiceDialog(props) {
                 <TextField
                   {...field}
                   className="mb-24"
-                  label="Service Id"
+                  label="Hospitalitytype Id"
                   id="id"
                   variant="outlined"
                   fullWidth
@@ -177,13 +178,13 @@ function ServiceDialog(props) {
             </div>
             <Controller
               control={control}
-              name="svc_name"
+              name="hos_type_name"
               render={({ field }) => (
                 <TextField
                   {...field}
                   className="mb-24"
-                  label="Service Name"
-                  id="svc_name"
+                  label="Hospitalitytype Name"
+                  id="hos_type_name"
                   error={!!errors.svc_name}
                   helperText={errors?.svc_name?.message}
                   variant="outlined"
@@ -192,32 +193,9 @@ function ServiceDialog(props) {
               )}
             />
           </div>
-
-          <div className="flex">
-            <div className="min-w-48 pt-20">
-              <Icon color="action">account_circle</Icon>
-            </div>
-            <Controller
-              control={control}
-              name="svc_desc"
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  className="mb-24"
-                  label="Service Description"
-                  id="svc_desc"
-                  error={!!errors.name}
-                  helperText={errors?.name?.message}
-                  variant="outlined"
-                  fullWidth
-                  multiline
-                />
-              )}
-            />
-          </div>
         </DialogContent>
 
-        {serviceDialog.type === 'new' ? (
+        {hospitalitytypeDialog.type === 'new' ? (
           <DialogActions className="justify-between p-4 pb-16">
             <div className="px-16">
               <Button
@@ -252,4 +230,4 @@ function ServiceDialog(props) {
   );
 }
 
-export default ServiceDialog;
+export default HospitalitytypeDialog;

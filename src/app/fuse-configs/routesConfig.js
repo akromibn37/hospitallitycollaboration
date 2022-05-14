@@ -11,8 +11,10 @@ import UsersPermissionConfig from 'app/main/user-permission/UsersPermissionConfi
 import SubmitConfig from 'app/main/customer-submit/SubmitConfig';
 import ServicesAppConfig from 'app/main/service/ServicesAppConfig';
 import HospitalitysAppConfig from 'app/main/hospitality/HospitalitysAppConfig';
+import HospitalityTypesAppConfig from 'app/main/hospitality-type/HospitalitytypesAppConfig';
 import CustomerProfilesApp from 'app/main/customer-profile/CustomerProfilesAppConfig';
 import CustomerServicesApp from 'app/main/customer-service/CustomerServicesAppConfig';
+import CustomerBookingsApp from 'app/main/customer-booking/CustomerBookingsAppConfig';
 
 const routeConfigs = [
   ExampleConfig,
@@ -26,6 +28,8 @@ const routeConfigs = [
   HospitalitysAppConfig,
   CustomerProfilesApp,
   CustomerServicesApp,
+  HospitalityTypesAppConfig,
+  CustomerBookingsApp,
 ];
 
 const routes = [

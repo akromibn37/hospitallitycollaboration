@@ -43,7 +43,7 @@ export const updateService = createAsyncThunk(
 export const removeService = createAsyncThunk(
   'servicesApp/services/removeService',
   async (serviceId, { dispatch, getState }) => {
-    await axios.post('/api/services-app/remove-service', { serviceId });
+    await axios.post(`${Constant.BASE_URL}/api/v1/service/delete`, { id: serviceId });
 
     return serviceId;
   }
