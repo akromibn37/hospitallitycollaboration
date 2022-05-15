@@ -24,6 +24,7 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DateRangePicker from '@mui/lab/DateRangePicker';
 import Box from '@mui/material/Box';
 import { getHospitalitys, selectHospitalitys } from './store/hospitalitysSlice';
+import { convertDateString } from '../../Utils';
 
 import {
   removeCustomerBooking,
@@ -124,14 +125,9 @@ function CustomerBookingDialog(props) {
    * Form Submit
    */
   function onSubmit(data) {
-    // console.log('Submit data:', data);
-    // console.log('Date data:', dateValue[0], dateValue[1]);
-    if (dateValue[0] !== null) {
-      data.start_date = new Date(`${dateValue[0]}EDT`).toISOString().split('T')[0];
-    }
-    if (dateValue[1] !== null) {
-      data.end_date = new Date(`${dateValue[1]}EDT`).toISOString().split('T')[0];
-    }
+    data.start_date = convertDateString(dateValue[0]);
+    data.end_date = convertDateString(dateValue[1]);
+
     if (data.cus_svc_id === '') {
       data.cus_svc_id = routeParams.id;
     }

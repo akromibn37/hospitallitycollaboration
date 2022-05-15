@@ -13,6 +13,7 @@ import { useGlobalFilter, usePagination, useRowSelect, useSortBy, useTable } fro
 import clsx from 'clsx';
 import { Button } from '@mui/material';
 import ContactsTablePaginationActions from './CustomerServicesTablePaginationActions';
+import compareDate from '../../Utils';
 
 const IndeterminateCheckbox = forwardRef(({ indeterminate, ...rest }, ref) => {
   const defaultRef = useRef();
@@ -225,14 +226,6 @@ const EnhancedTable = ({ columns, data, onRowClick }) => {
     setPageSize(Number(event.target.value));
   };
 
-  function compareDate(event) {
-    const now = new Date();
-    if (now >= Date.parse(event.start_date) && now <= Date.parse(event.end_date)) {
-      return true;
-    }
-    return false;
-  }
-
   // Render the UI for your table
   return (
     <div className="flex flex-col w-full min-h-full sm:border-1 sm:rounded-16 overflow-hidden">
@@ -271,7 +264,6 @@ const EnhancedTable = ({ columns, data, onRowClick }) => {
                   onClick={(ev) => onRowClick(ev, row)}
                   className="truncate cursor-pointer"
                   style={compareDate(row.original) ? { backgroundColor: 'yellow' } : {}}
-                  // style={{ backgroundColor: 'yellow' }}
                 >
                   {TableCellComponent(row)}
                   {/* {row.cells.map((cell) => {

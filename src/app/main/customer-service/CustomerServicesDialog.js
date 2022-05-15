@@ -25,6 +25,7 @@ import Box from '@mui/material/Box';
 import { getCategories, selectCategories } from './store/categoriesSlice';
 import { getUsers, selectUsers } from './store/usersSlice';
 import { getCustomers, selectCustomers } from './store/customersSlice';
+import { convertDateString } from '../../Utils';
 
 import {
   removeCustomerService,
@@ -131,13 +132,8 @@ function CustomerServiceDialog(props) {
    * Form Submit
    */
   function onSubmit(data) {
-    console.log('Date data:', dateValue[0], dateValue[1]);
-    if (dateValue[0] !== null) {
-      data.start_date = new Date(`${dateValue[0]}EDT`).toISOString().split('T')[0];
-    }
-    if (dateValue[1] !== null) {
-      data.end_date = new Date(`${dateValue[1]}EDT`).toISOString().split('T')[0];
-    }
+    data.start_date = convertDateString(dateValue[0]);
+    data.end_date = convertDateString(dateValue[1]);
     if (customerServiceDialog.type === 'new') {
       dispatch(addCustomerService(data));
     } else {

@@ -12,6 +12,7 @@ import TableSortLabel from '@mui/material/TableSortLabel';
 import { useGlobalFilter, usePagination, useRowSelect, useSortBy, useTable } from 'react-table';
 import clsx from 'clsx';
 import ContactsTablePaginationActions from './CustomerBookingsTablePaginationActions';
+import compareDate from '../../Utils';
 
 const IndeterminateCheckbox = forwardRef(({ indeterminate, ...rest }, ref) => {
   const defaultRef = useRef();
@@ -167,14 +168,6 @@ const EnhancedTable = ({ columns, data, onRowClick }) => {
   const handleChangeRowsPerPage = (event) => {
     setPageSize(Number(event.target.value));
   };
-
-  function compareDate(event) {
-    const now = new Date();
-    if (now >= Date.parse(event.start_date) && now <= Date.parse(event.end_date)) {
-      return true;
-    }
-    return false;
-  }
 
   // Render the UI for your table
   return (
