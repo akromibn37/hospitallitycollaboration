@@ -5,7 +5,6 @@ import * as Constant from '../../../Constant';
 export const getHospitalitys = createAsyncThunk(
   'customerServicesApp/hospitalitys/getHospitalitys',
   async () => {
-    console.log('here');
     const response = await axios.get(`${Constant.BASE_URL}/api/v1/hospitality/get/all`);
     const data = await response.data.data.Detail;
 

@@ -85,9 +85,6 @@ function HospitalitytypeDialog(props) {
     if (hospitalitytypeDialog.props.open) {
       initDialog();
     }
-    // axios.get(`http://localhost:8000/api/v1/hospitalitytype/get/type`).then((res) => {
-    //   console.log('res:', res.detail);
-    // });
   }, [hospitalitytypeDialog.props.open, initDialog]);
 
   /**

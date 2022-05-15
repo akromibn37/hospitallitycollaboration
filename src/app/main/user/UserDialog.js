@@ -130,7 +130,6 @@ function UserDialog(props) {
    * Form Submit
    */
   function onSubmit(data) {
-    console.log('data:', data);
     if (userDialog.type === 'new') {
       dispatch(addUser(data));
     } else {
@@ -247,7 +246,6 @@ function UserDialog(props) {
                       variant="outlined"
                       value={value}
                       onChange={(event, newValue) => {
-                        console.log('onchange newValue:', newValue.props.value);
                         onChange(newValue.props.value);
                       }}
                       fullWidth
@@ -258,7 +256,6 @@ function UserDialog(props) {
                           {userTypes[key]}
                         </MenuItem>
                       ))}
-                      {/* {console.log(usertype.value)} */}
                     </TextField>
                   )}
                 />

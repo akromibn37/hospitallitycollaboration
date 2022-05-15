@@ -19,7 +19,6 @@ export const submitRegister =
       })
       .then((data) => {
         // dispatch(setUserData(user));
-        console.log('data:', data);
 
         history.push({
           pathname: '/login',
@@ -30,7 +29,6 @@ export const submitRegister =
         return dispatch(registerSuccess());
       })
       .catch((errors) => {
-        console.log('error:', errors);
         dispatch(showMessage({ message: 'Register User Error' }));
         return dispatch(registerError(errors));
       });

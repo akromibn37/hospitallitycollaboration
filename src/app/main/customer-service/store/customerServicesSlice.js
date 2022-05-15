@@ -6,11 +6,9 @@ import * as Constant from '../../../Constant';
 export const getCustomerServices = createAsyncThunk(
   'customerServicesApp/customerServices/getCustomerServices',
   async (routeParams, { getState }) => {
-    console.log('routeParams:', routeParams);
     routeParams = routeParams || getState().customerServicesApp.customerServices.routeParams;
     const response = await axios.get(`${Constant.BASE_URL}/api/v1/customer/service/get/all`);
     const data = await response.data.data.Detail;
-    console.log('Data:', data);
 
     return { data, routeParams };
   }
@@ -19,7 +17,6 @@ export const getCustomerServices = createAsyncThunk(
 export const addCustomerService = createAsyncThunk(
   'customerServicesApp/customerServices/addCustomerService',
   async (customerService, { dispatch, getState }) => {
-    console.log('customerService:', customerService);
     const response = await axios.post(
       `${Constant.BASE_URL}/api/v1/customer/service/create`,
       customerService
@@ -35,7 +32,6 @@ export const addCustomerService = createAsyncThunk(
 export const updateCustomerService = createAsyncThunk(
   'customerServicesApp/customerServices/updateCustomerService',
   async (customerService, { dispatch, getState }) => {
-    console.log('customerService:', customerService);
     const response = await axios.post(
       `${Constant.BASE_URL}/api/v1/customer/service/update`,
       customerService

@@ -107,9 +107,6 @@ function CustomerBookingDialog(props) {
     if (customerBookingDialog.props.open) {
       initDialog();
     }
-    // axios.get(`http://localhost:8000/api/v1/customerBooking/get/type`).then((res) => {
-    //   console.log('res:', res.detail);
-    // });
   }, [customerBookingDialog.props.open, initDialog]);
 
   /**
@@ -218,7 +215,6 @@ function CustomerBookingDialog(props) {
                   value={routeParams.id === 'all' ? value : routeParams.id}
                   disabled={routeParams.id !== 'all'}
                   onChange={(event, newValue) => {
-                    // console.log('onchange newValue:', newValue.props.value);
                     onChange(newValue.props.value);
                   }}
                   fullWidth
@@ -229,7 +225,6 @@ function CustomerBookingDialog(props) {
                       {option.id} {option.customer_name} {option.customer_phone_number}
                     </MenuItem>
                   ))}
-                  {/* {console.log(usertype.value)} */}
                 </TextField>
               )}
             />
@@ -252,7 +247,6 @@ function CustomerBookingDialog(props) {
                   variant="outlined"
                   value={value}
                   onChange={(event, newValue) => {
-                    // console.log('onchange newValue:', newValue.props.value);
                     onChange(newValue.props.value);
                   }}
                   fullWidth
@@ -263,7 +257,6 @@ function CustomerBookingDialog(props) {
                       {option.hos_name}
                     </MenuItem>
                   ))}
-                  {/* {console.log(usertype.value)} */}
                 </TextField>
               )}
             />

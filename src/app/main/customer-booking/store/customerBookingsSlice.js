@@ -14,7 +14,6 @@ export const getCustomerBookings = createAsyncThunk(
       routeParams
     );
     const data = await response.data.data.Detail;
-    console.log('Data:', data);
 
     return { data, routeParams };
   }
@@ -23,7 +22,6 @@ export const getCustomerBookings = createAsyncThunk(
 export const addCustomerBooking = createAsyncThunk(
   'customerBookingsApp/customerBookings/addCustomerBooking',
   async (customerBooking, { dispatch, getState }) => {
-    // console.log('customerBooking:', customerBooking);
     const response = await axios.post(
       `${Constant.BASE_URL}/api/v1/customer/booking/create`,
       customerBooking
@@ -39,7 +37,6 @@ export const addCustomerBooking = createAsyncThunk(
 export const updateCustomerBooking = createAsyncThunk(
   'customerBookingsApp/customerBookings/updateCustomerBooking',
   async (customerBooking, { dispatch, getState }) => {
-    // console.log('customerBooking:', customerBooking);
     const response = await axios.post(
       `${Constant.BASE_URL}/api/v1/customer/booking/update`,
       customerBooking

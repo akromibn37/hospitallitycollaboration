@@ -7,7 +7,6 @@ export const getCustomers = createAsyncThunk(
   async () => {
     const response = await axios.get(`${Constant.BASE_URL}/api/v1/customer/profile/get/all`);
     const data = await response.data.data.Detail;
-    console.log('response:', response);
 
     return data;
   }

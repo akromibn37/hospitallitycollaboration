@@ -6,11 +6,9 @@ import * as Constant from '../../../Constant';
 export const getCustomerProfiles = createAsyncThunk(
   'customerProfilesApp/customerProfiles/getCustomerProfiles',
   async (routeParams, { getState }) => {
-    console.log('routeParams:', routeParams);
     routeParams = routeParams || getState().customerProfilesApp.customerProfiles.routeParams;
     const response = await axios.get(`${Constant.BASE_URL}/api/v1/customer/profile/get/all`);
     const data = await response.data.data.Detail;
-    console.log('Data:', data);
 
     return { data, routeParams };
   }
@@ -19,7 +17,6 @@ export const getCustomerProfiles = createAsyncThunk(
 export const addCustomerProfile = createAsyncThunk(
   'customerProfilesApp/customerProfiles/addCustomerProfile',
   async (customerProfile, { dispatch, getState }) => {
-    console.log('customerProfile:', customerProfile);
     const response = await axios.post(
       `${Constant.BASE_URL}/customer/profile/create`,
       customerProfile
@@ -35,7 +32,6 @@ export const addCustomerProfile = createAsyncThunk(
 export const updateCustomerProfile = createAsyncThunk(
   'customerProfilesApp/customerProfiles/updateCustomerProfile',
   async (customerProfile, { dispatch, getState }) => {
-    console.log('customerProfile:', customerProfile);
     const response = await axios.post(
       `${Constant.BASE_URL}/api/v1/customer/profile/update`,
       customerProfile

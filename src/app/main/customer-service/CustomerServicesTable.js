@@ -182,7 +182,6 @@ const EnhancedTable = ({ columns, data, onRowClick }) => {
                   StatusAppearance(cell.value)
                 )}
               > */}
-              {console.log()}
               {cellRow[6].value !== 'Cancel' ? cell.render('Cell') : <></>}
               {/* </div> */}
             </TableCell>
@@ -257,7 +256,6 @@ const EnhancedTable = ({ columns, data, onRowClick }) => {
           <TableBody>
             {page.map((row, i) => {
               prepareRow(row);
-              // console.log('row:', row);
               return (
                 <TableRow
                   {...row.getRowProps()}

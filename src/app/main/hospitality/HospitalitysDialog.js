@@ -50,7 +50,6 @@ function HospitalityDialog(props) {
   );
   const user = useSelector(({ auth }) => auth.user);
   const hosTypes = useSelector(selectHospitalitytypes);
-  console.log('hosTypes:', hosTypes);
 
   const { control, watch, reset, handleSubmit, formState, getValues } = useForm({
     mode: 'onChange',
@@ -288,7 +287,6 @@ function HospitalityDialog(props) {
                   variant="outlined"
                   value={value}
                   onChange={(event, newValue) => {
-                    console.log('onchange newValue:', newValue.props.value);
                     onChange(newValue.props.value);
                   }}
                   fullWidth

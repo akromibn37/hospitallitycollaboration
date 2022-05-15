@@ -6,11 +6,9 @@ import * as Constant from '../../../Constant';
 export const getServices = createAsyncThunk(
   'servicesApp/services/getServices',
   async (routeParams, { getState }) => {
-    console.log('routeParams:', routeParams);
     routeParams = routeParams || getState().servicesApp.services.routeParams;
     const response = await axios.get(`${Constant.BASE_URL}/api/v1/service/get/all`);
     const data = await response.data.data.Detail;
-    console.log('service response:', response);
 
     return { data, routeParams };
   }

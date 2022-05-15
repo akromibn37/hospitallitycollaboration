@@ -114,9 +114,6 @@ function CustomerServiceDialog(props) {
     if (customerServiceDialog.props.open) {
       initDialog();
     }
-    // axios.get(`http://localhost:8000/api/v1/customerService/get/type`).then((res) => {
-    //   console.log('res:', res.detail);
-    // });
   }, [customerServiceDialog.props.open, initDialog]);
 
   /**
@@ -221,7 +218,6 @@ function CustomerServiceDialog(props) {
                     variant="outlined"
                     value={value}
                     onChange={(event, newValue) => {
-                      console.log('onchange newValue:', newValue.props.value);
                       onChange(newValue.props.value);
                     }}
                     fullWidth
@@ -232,7 +228,6 @@ function CustomerServiceDialog(props) {
                         {option.name}
                       </MenuItem>
                     ))}
-                    {/* {console.log(usertype.value)} */}
                   </TextField>
                 )}
               />
@@ -258,7 +253,6 @@ function CustomerServiceDialog(props) {
                   variant="outlined"
                   value={value}
                   onChange={(event, newValue) => {
-                    console.log('onchange newValue:', newValue.props.value);
                     onChange(newValue.props.value);
                   }}
                   fullWidth
@@ -269,7 +263,6 @@ function CustomerServiceDialog(props) {
                       {category.svc_name}
                     </MenuItem>
                   ))}
-                  {/* {console.log(usertype.value)} */}
                 </TextField>
               )}
             />
@@ -292,7 +285,6 @@ function CustomerServiceDialog(props) {
                   variant="outlined"
                   value={value}
                   onChange={(event, newValue) => {
-                    console.log('onchange newValue:', newValue.props.value);
                     onChange(newValue.props.value);
                   }}
                   fullWidth
@@ -303,7 +295,6 @@ function CustomerServiceDialog(props) {
                       {option.displayName}
                     </MenuItem>
                   ))}
-                  {/* {console.log(usertype.value)} */}
                 </TextField>
               )}
             />
@@ -326,7 +317,6 @@ function CustomerServiceDialog(props) {
                   variant="outlined"
                   value={value}
                   onChange={(event, newValue) => {
-                    console.log('onchange newValue:', newValue.props.value);
                     onChange(newValue.props.value);
                   }}
                   fullWidth
@@ -337,7 +327,6 @@ function CustomerServiceDialog(props) {
                       {statusTypes[key]}
                     </MenuItem>
                   ))}
-                  {/* {console.log(usertype.value)} */}
                 </TextField>
               )}
             />

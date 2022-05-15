@@ -76,7 +76,6 @@ function UsersHeader(props) {
           </Paper>
         </ThemeProvider>
       </div>
-      {console.log('user:', user)}
       {user.role === 'user' ? (
         <></>
       ) : (

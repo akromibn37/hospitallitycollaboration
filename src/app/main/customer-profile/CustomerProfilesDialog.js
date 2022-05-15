@@ -288,9 +288,6 @@ function CustomerProfileDialog(props) {
     if (customerProfileDialog.props.open) {
       initDialog();
     }
-    // axios.get(`http://localhost:8000/api/v1/customerProfile/get/type`).then((res) => {
-    //   console.log('res:', res.detail);
-    // });
   }, [customerProfileDialog.props.open, initDialog]);
 
   /**
@@ -459,7 +456,6 @@ function CustomerProfileDialog(props) {
                   variant="outlined"
                   value={value}
                   onChange={(event, newValue) => {
-                    console.log('onchange newValue:', newValue.props.value);
                     onChange(newValue.props.value);
                   }}
                   fullWidth
@@ -493,7 +489,6 @@ function CustomerProfileDialog(props) {
                     variant="outlined"
                     value={value}
                     onChange={(event, newValue) => {
-                      console.log('onchange newValue:', newValue.props.value);
                       onChange(newValue.props.value);
                     }}
                     fullWidth

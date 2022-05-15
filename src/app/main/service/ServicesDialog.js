@@ -84,9 +84,6 @@ function ServiceDialog(props) {
     if (serviceDialog.props.open) {
       initDialog();
     }
-    // axios.get(`http://localhost:8000/api/v1/service/get/type`).then((res) => {
-    //   console.log('res:', res.detail);
-    // });
   }, [serviceDialog.props.open, initDialog]);
 
   /**

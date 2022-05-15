@@ -112,7 +112,6 @@ function UserDialog(props) {
     } else {
       data.active = false;
     }
-    console.log('data:', data);
 
     if (userDialog.type === 'new') {
       dispatch(addUser(data));
@@ -229,7 +228,6 @@ function UserDialog(props) {
                   variant="outlined"
                   value={value}
                   onChange={(event, newValue) => {
-                    console.log('onchange newValue:', newValue.props.value);
                     onChange(newValue.props.value);
                   }}
                   fullWidth
@@ -264,20 +262,13 @@ function UserDialog(props) {
                   variant="outlined"
                   value={value}
                   onChange={(event, newValue) => {
-                    console.log('onchange newValue:', newValue.props.value);
                     onChange(newValue.props.value);
                   }}
                   fullWidth
                   required
                 >
-                  {/* {console.log(
-                    'is true',
-                    control._formValues.active === true ? activeTypes.active : activeTypes.inactive
-                  )} */}
-                  {/* {console.log('is true', control._formValues)} */}
                   {Object.keys(activeTypes).map((key, newvalue) => (
                     <MenuItem key={key} value={activeTypes[key]}>
-                      {console.log('control:', control._formValues.active)}
                       {activeTypes[key]}
                     </MenuItem>
                   ))}

@@ -48,7 +48,6 @@ class JwtService extends FuseUtils.EventEmitter {
   createUser = (data) => {
     return new Promise((resolve, reject) => {
       axios.post(`${Constant.BASE_URL}/user/create`, data).then((response) => {
-        console.log('response:', response);
         if (response.data.code) {
           // this.setSession(response.data.access_token);
           resolve(response.data.code);
@@ -67,8 +66,6 @@ class JwtService extends FuseUtils.EventEmitter {
           password,
         })
         .then((response) => {
-          console.log('we are here');
-          console.log('constant:', Constant);
           if (response.data.data) {
             this.setSession(response.data.data.userId);
             resolve(response.data.data);

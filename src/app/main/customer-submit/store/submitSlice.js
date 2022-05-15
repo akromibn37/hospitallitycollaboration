@@ -6,10 +6,8 @@ import * as Constant from '../../../Constant';
 export const addSubmit = createAsyncThunk(
   'submitApp/submit/addSubmit',
   async (customerData, { dispatch, getState }) => {
-    console.log('customerData:', customerData);
     const response = await axios.post(`${Constant.BASE_URL}/customer/profile/create`, customerData);
     const data = await response.data;
-    console.log('data', data);
 
     if (data.code === 200) {
       dispatch(showMessage({ message: 'Save User Information Successfully' }));

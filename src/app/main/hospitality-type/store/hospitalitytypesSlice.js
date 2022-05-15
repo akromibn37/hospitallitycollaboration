@@ -6,11 +6,9 @@ import * as Constant from '../../../Constant';
 export const getHospitalitytypes = createAsyncThunk(
   'hospitalitytypesApp/hospitalitytypes/getHospitalitytypes',
   async (routeParams, { getState }) => {
-    console.log('routeParams:', routeParams);
     routeParams = routeParams || getState().hospitalitytypesApp.hospitalitytypes.routeParams;
     const response = await axios.get(`${Constant.BASE_URL}/api/v1/hospitality/type/get/all`);
     const data = await response.data.data.Detail;
-    console.log('hospitalitytype response:', response);
 
     return { data, routeParams };
   }
@@ -19,7 +17,6 @@ export const getHospitalitytypes = createAsyncThunk(
 export const addHospitalitytype = createAsyncThunk(
   'hospitalitytypesApp/hospitalitytypes/addHospitalitytype',
   async (hospitalitytype, { dispatch, getState }) => {
-    console.log('hospitalitytype:', hospitalitytype);
     const response = await axios.post(
       `${Constant.BASE_URL}/api/v1/hospitality/type/create`,
       hospitalitytype

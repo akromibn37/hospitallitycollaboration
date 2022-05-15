@@ -259,7 +259,6 @@ function SubmitApp() {
   const dispatch = useDispatch();
   // const authRegister = useSelector(({ auth }) => auth.register);
   const categories = useSelector(selectCategories);
-  console.log('categories:', categories);
 
   const { control, formState, handleSubmit, reset, setError } = useForm({
     mode: 'onChange',
@@ -283,7 +282,6 @@ function SubmitApp() {
   // }, [authRegister.errors, setError]);
 
   function onSubmit(model) {
-    console.log('model:', model);
     dispatch(addSubmit(model));
   }
 
@@ -414,7 +412,6 @@ function SubmitApp() {
                       variant="outlined"
                       value={value}
                       onChange={(event, newValue) => {
-                        console.log('onchange newValue:', newValue.props.value);
                         onChange(newValue.props.value);
                       }}
                       fullWidth
@@ -442,7 +439,6 @@ function SubmitApp() {
                       variant="outlined"
                       value={value}
                       onChange={(event, newValue) => {
-                        console.log('onchange newValue:', newValue.props.value);
                         onChange(newValue.props.value);
                       }}
                       fullWidth

@@ -6,7 +6,6 @@ import * as Constant from '../../../Constant';
 export const getUsers = createAsyncThunk(
   'usersApp/users/getUsers',
   async (routeParams, { getState }) => {
-    console.log('routeParams:', routeParams);
     routeParams = routeParams || getState().usersApp.users.routeParams;
     const response = await axios.post(
       routeParams.id === 'all'
@@ -16,8 +15,6 @@ export const getUsers = createAsyncThunk(
     );
 
     const data = await response.data.data.data;
-    console.log('response:', response);
-    console.log('data:', data);
 
     return { data, routeParams };
   }
@@ -26,7 +23,6 @@ export const getUsers = createAsyncThunk(
 export const addUser = createAsyncThunk(
   'usersApp/users/addUser',
   async (user, { dispatch, getState }) => {
-    console.log('user request:', user);
     const response = await axios.post(`${Constant.BASE_URL}/api/v1/user/create`, user);
     const data = await response.data;
 
@@ -39,7 +35,6 @@ export const addUser = createAsyncThunk(
 export const updateUser = createAsyncThunk(
   'usersApp/users/updateUser',
   async (user, { dispatch, getState }) => {
-    console.log('input:', user);
     const response = await axios.post(
       `${Constant.BASE_URL}/api/v1/information/update/profile`,
       user
