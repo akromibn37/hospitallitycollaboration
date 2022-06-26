@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk, createEntityAdapter } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { showMessage } from 'app/store/fuse/messageSlice';
+import history from '@history';
 import * as Constant from '../../../Constant';
 
 export const addSubmit = createAsyncThunk(
@@ -10,7 +11,10 @@ export const addSubmit = createAsyncThunk(
     const data = await response.data;
 
     if (data.code === 200) {
-      dispatch(showMessage({ message: 'Save User Information Successfully' }));
+      history.push({
+        pathname: '/submit/success',
+      });
+      // dispatch(showMessage({ message: 'Save User Information Successfully' }));
     } else {
       dispatch(showMessage({ message: 'User Repeat or Something wrong:)' }));
     }

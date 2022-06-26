@@ -1,5 +1,6 @@
 import { authRoles } from 'app/auth';
 import Submit from './Submit';
+import Success from './Success';
 
 const SubmitConfig = {
   settings: {
@@ -25,6 +26,10 @@ const SubmitConfig = {
   },
   auth: authRoles.onlyGuest,
   routes: [
+    {
+      path: '/submit/success',
+      component: Success,
+    },
     {
       path: '/submit',
       component: Submit,

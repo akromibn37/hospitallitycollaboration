@@ -1,6 +1,6 @@
 import { lazy } from 'react';
 import { Redirect } from 'react-router-dom';
-// import { authRoles } from 'app/auth';
+import { authRoles } from 'app/auth';
 
 const CustomerProfilesAppConfig = {
   settings: {
@@ -8,6 +8,7 @@ const CustomerProfilesAppConfig = {
       config: {},
     },
   },
+  auth: authRoles.staff,
   // auth: authRoles.user,
   routes: [
     {

@@ -48,7 +48,11 @@ const schema = yup.object().shape({
 });
 
 const defaultValues = {
+  firstName: '',
+  lastName: '',
   displayName: '',
+  phoneNumber: '',
+  email: '',
   username: '',
   password: '',
   passwordConfirm: '',
@@ -119,6 +123,58 @@ function Register() {
                 onSubmit={handleSubmit(onSubmit)}
               >
                 <Controller
+                  name="firstName"
+                  control={control}
+                  render={({ field }) => (
+                    <TextField
+                      {...field}
+                      className="mb-16"
+                      type="text"
+                      label="First name"
+                      error={!!errors.firstName}
+                      helperText={errors?.firstName?.message}
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <Icon className="text-20" color="action">
+                              person
+                            </Icon>
+                          </InputAdornment>
+                        ),
+                      }}
+                      variant="outlined"
+                      required
+                    />
+                  )}
+                />
+
+                <Controller
+                  name="lastName"
+                  control={control}
+                  render={({ field }) => (
+                    <TextField
+                      {...field}
+                      className="mb-16"
+                      type="text"
+                      label="Last name"
+                      error={!!errors.lastName}
+                      helperText={errors?.lastName?.message}
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <Icon className="text-20" color="action">
+                              person
+                            </Icon>
+                          </InputAdornment>
+                        ),
+                      }}
+                      variant="outlined"
+                      required
+                    />
+                  )}
+                />
+
+                <Controller
                   name="displayName"
                   control={control}
                   render={({ field }) => (
@@ -145,6 +201,56 @@ function Register() {
                 />
 
                 <Controller
+                  name="phoneNumber"
+                  control={control}
+                  render={({ field }) => (
+                    <TextField
+                      {...field}
+                      className="mb-16"
+                      label="Phone Number"
+                      error={!!errors.phoneNumber}
+                      helperText={errors?.phoneNumber?.message}
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <Icon className="text-20" color="action">
+                              phone
+                            </Icon>
+                          </InputAdornment>
+                        ),
+                      }}
+                      variant="outlined"
+                      required
+                    />
+                  )}
+                />
+
+                <Controller
+                  name="email"
+                  control={control}
+                  render={({ field }) => (
+                    <TextField
+                      {...field}
+                      className="mb-16"
+                      label="Email"
+                      error={!!errors.email}
+                      helperText={errors?.email?.message}
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <Icon className="text-20" color="action">
+                              email
+                            </Icon>
+                          </InputAdornment>
+                        ),
+                      }}
+                      variant="outlined"
+                      required
+                    />
+                  )}
+                />
+
+                <Controller
                   name="username"
                   control={control}
                   render={({ field }) => (
@@ -159,7 +265,7 @@ function Register() {
                         endAdornment: (
                           <InputAdornment position="end">
                             <Icon className="text-20" color="action">
-                              user
+                              person
                             </Icon>
                           </InputAdornment>
                         ),

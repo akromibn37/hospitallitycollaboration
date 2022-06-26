@@ -6,7 +6,7 @@ import history from '@history';
 import { createUserSettingsFirebase } from './userSlice';
 
 export const submitRegister =
-  ({ displayName, username, password }) =>
+  ({ firstName, lastName, displayName, phoneNumber, email, username, password }) =>
   async (dispatch) => {
     return jwtService
       .createUser({
@@ -14,6 +14,10 @@ export const submitRegister =
         password,
         userType: 'user',
         displayName,
+        firstName,
+        lastName,
+        phoneNumber,
+        email,
         createBy: displayName,
         updateBy: displayName,
       })
