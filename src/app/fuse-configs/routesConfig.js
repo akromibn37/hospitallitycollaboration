@@ -40,7 +40,7 @@ const routes = [
   {
     exact: true,
     path: '/',
-    component: () => <Redirect to="/login" />,
+    component: () => <Redirect to="/submit" />,
   },
   {
     path: '/loading',
