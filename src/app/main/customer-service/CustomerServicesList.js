@@ -41,6 +41,12 @@ function CustomerServicesList(props) {
       //   sortable: false,
       // },
       {
+        Header: 'See Detail',
+        accessor: 'seeDetail',
+        className: 'font-medium',
+        sortable: true,
+      },
+      {
         Header: 'CustomerService Id',
         accessor: 'id',
         className: 'font-medium',
@@ -88,12 +94,7 @@ function CustomerServicesList(props) {
         className: 'font-medium',
         sortable: true,
       },
-      {
-        Header: 'See Detail',
-        accessor: 'seeDetail',
-        className: 'font-medium',
-        sortable: true,
-      },
+
       // {
       //   id: 'action',
       //   width: 128,
