@@ -98,13 +98,13 @@ function Login() {
                 <div className="border-l-1 mr-4 w-1 h-40" />
                 <div>
                   <Typography className="text-24 font-semibold logo-text" color="inherit">
-                    FUSE
+                    AMS
                   </Typography>
                   <Typography
                     className="text-16 tracking-widest -mt-8 font-700"
                     color="textSecondary"
                   >
-                    REACT
+                    InThailand
                   </Typography>
                 </div>
               </div>
@@ -207,7 +207,7 @@ function Login() {
             >
               <Typography variant="h3" color="inherit" className="font-semibold leading-tight">
                 Welcome <br />
-                to the <br /> FUSE React!
+                to <br /> AMS In Thailand!
               </Typography>
             </motion.div>
 
@@ -216,8 +216,7 @@ function Login() {
               animate={{ opacity: 1, transition: { delay: 0.3 } }}
             >
               <Typography variant="subtitle1" color="inherit" className="mt-32">
-                Powerful and professional admin template for Web Applications, CRM, CMS, Admin
-                Panels and more.
+                Arabic Medical Service In Thailand.
               </Typography>
             </motion.div>
           </div>
